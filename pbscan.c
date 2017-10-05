@@ -1,11 +1,11 @@
 /*
  
- PaBScan, program for performing selection outlier scans with population branch statistic (PBS)
+ PBScan, program for performing selection outlier scans with population branch statistic (PBS)
  
  Code written by Tuomas Hamala
  tuomas.hamala@gmail.com
  
- Manual available at: https://github.com/thamala/PaBScan
+ Manual available at: https://github.com/thamala/PBScan
  
  */
 
@@ -15,7 +15,7 @@
 #include <ctype.h>
 #include <math.h>
 #include <time.h>
-#include "pabscan.h"
+#include "pbscan.h"
 #define empty "EMPTY"
 #define merror "\nERROR: System out of memory\n"
 #define version "2017.07.27"
@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
     time_t timer=0;
     
     if(argc == 1){
-        printf("\nPaBScan version %s\n\n", version);
+        printf("\nPBScan version %s\n\n", version);
         showHelp();
         return 0;
     }
@@ -63,7 +63,7 @@ void openFiles(int argc, char *argv[]){
     Pbs_s **estimates;
 	FILE *geno_file, *pop1_file, *pop2_file, *pop3_file, *ms_file, *out_file;
     
-    printf("\nPaBScan version %s\n\n", version);
+    printf("\nPBScan version %s\n\n", version);
 	
 	puts("Started with parameters:");
 	
@@ -394,7 +394,7 @@ Geno_s *readVcf(FILE *geno_file, char **pop1, char **pop2, char **pop3, char nam
         
         strcpy(namec, name);
         
-        strcat(namec, ".pabscan");
+        strcat(namec, ".pbscan");
         
         if((pabs_file = fopen(namec, "w")) == NULL){
             printf("\nWarning: Cannot create file %s\n\n", namec);
@@ -1884,8 +1884,8 @@ void showHelp(void){
     puts("Required parameters:");
     puts("\t-likes [file]*\tGenotype likelihoods in Beagle format");
     puts("\t-vcf [file]*\tGenotype calls in VCF 4.1 format");
-    puts("\t-vcfp [file]*\tSame as '-vcf', except prints out a native PaBScan file (suffix .pabscan)");
-    puts("\t-in [file]*\tGenotype calls in native PaBScan format");
+    puts("\t-vcfp [file]*\tSame as '-vcf', except prints out a native PBScan file (suffix .pbscan)");
+    puts("\t-in [file]*\tGenotype calls in native PBScan format");
     puts("\t-pop1 [file]\tList of individuals (one per line) from focal population one");
     puts("\t-pop2 [file]\tList of individuals (one per line) from focal population two");
     puts("\t-pop3 [file]\tList of individuals (one per line) from the outgroup population");
@@ -1901,5 +1901,5 @@ void showHelp(void){
     puts("\t-min [int]\tMinimum number of individuals required per population (default is 1)");
     puts("\t-maf [double]\tMinimum minor allele frequency required per site (default is 0.01)");
     puts("\nUsage example:");
-    puts("./pabscan -likes example.likes -pop1 list1.txt -pop2 list2.txt -pop3 list3.txt -out output -win 50 -step 51 -ms example.ms -div 2 -min 5 -maf 0.05\n");
+    puts("./pbscan -likes example.likes -pop1 list1.txt -pop2 list2.txt -pop3 list3.txt -out output -win 50 -step 51 -ms example.ms -div 2 -min 5 -maf 0.05\n");
 }
