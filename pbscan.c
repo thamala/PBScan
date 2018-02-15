@@ -18,7 +18,7 @@
 #include "pbscan.h"
 #define empty "EMPTY"
 #define merror "\nERROR: System out of memory\n"
-#define version "2017.07.27"
+#define version "2018.02.15"
 
 int main(int argc, char *argv[]){
     
@@ -1809,10 +1809,10 @@ void printOutput(FILE *out_file, Pbs_s **estimates, int win, int perm, int sims)
     double mid=0;
     
     if(win > 1 && (perm > 0 || sims > 0))
-        fprintf(out_file, "Chromo\tBeginning\tMiddle\tEnd\tLength\tPBS1\tP1\tPBS2\tP2\tPBS3\tP3\n");
+        fprintf(out_file, "Chromo\tStart\tMiddle\tEnd\tLength\tPBS1\tP1\tPBS2\tP2\tPBS3\tP3\n");
     
     else if(win > 1 && perm == 0 && sims == 0)
-        fprintf(out_file, "Chromo\tBeginning\tMiddle\tEnd\tLength\tPBS1\tPBS2\tPBS3\n");
+        fprintf(out_file, "Chromo\tStart\tMiddle\tEnd\tLength\tPBS1\tPBS2\tPBS3\n");
     
     else if(win == 1 && (perm > 0 || sims > 0))
         fprintf(out_file, "Chromo\tPosition\tPBS1\tP1\tPBS2\tP2\tPBS3\tP3\n");
