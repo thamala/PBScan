@@ -1,4 +1,4 @@
-//Version 2017.07.27
+//Version 2018.02.15
 
 typedef struct{
     int position, **genolist;
