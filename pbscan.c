@@ -960,7 +960,7 @@ Geno_s *readBeagle(FILE *geno_file, char **pop1, char **pop2, char **pop3, int i
 double **processMs(FILE *ms_file, char name[], int pop1_n, int pop2_n, int pop3_n, int *sims, int div, int print, double maf){
 
     int i=0, j=0, site_i=0, char_i=0, seq_i=0, line_i=0, lastline=0, maxchar=0, n=0, seqsite=0, site_ok=0, div_i[3]={0};
-    double t_ms[3]={0}, pbs_ms[3]={0}, hw[3]={0}, hb[3]={0}, dxy[3]={0}, n1=0, n2=0, p1=0, p2=0;
+    double t_ms[3]={0}, pbs_ms[3]={0}, hw[3]={0}, hb[3]={0}, dxy[3]={0}, n1=0, n2=0, p1=0, p2=0, af=0;
     double **alleles, **freqlist, **ms;
 	char c, *line, *temp, namec[35];
     FILE *null_file;
@@ -1038,15 +1038,15 @@ double **processMs(FILE *ms_file, char name[], int pop1_n, int pop2_n, int pop3_
 			if(strcmp(temp, "segsites:") == 0){
 				seqsite = atoi(strtok(NULL, " "));
 				
-				for(j=0;j<4;j++){
-					if((freqlist[j] = malloc((seqsite+2)*sizeof(double))) == NULL){
+				for(i=0;i<4;i++){
+					if((freqlist[i] = malloc((seqsite+2)*sizeof(double))) == NULL){
 						puts(merror);
 						exit(EXIT_FAILURE);
 					}
 				}
 				
-				for(j=0;j<(n+2);j++){
-					if((alleles[j] = malloc((seqsite+2)*sizeof(double))) == NULL){
+				for(i=0;i<(n+2);i++){
+					if((alleles[i] = malloc((seqsite+2)*sizeof(double))) == NULL){
 						puts(merror);
 						exit(EXIT_FAILURE);
 					}
@@ -1054,9 +1054,9 @@ double **processMs(FILE *ms_file, char name[], int pop1_n, int pop2_n, int pop3_
 			}
 		}
 		
-		if((line[0] == '0' || line[0] == '1') && line_i > 4){
-			for(j=0;j<strlen(line)-1;j++){
-				alleles[seq_i][j] = line[j] - '0';
+		if((line[0] == '0' || line[0] == '1') && line_i > 4 && seq_i < n){
+			for(i=0;i<strlen(line)-1;i++){
+				alleles[seq_i][i] = line[i] - '0';
 			}
 			seq_i++;
 		}
@@ -1112,9 +1112,11 @@ double **processMs(FILE *ms_file, char name[], int pop1_n, int pop2_n, int pop3_
                             p2 = freqlist[2][i] / (double)pop3_n;
                             break;
                     }
+			
+			af = ((n1 * p1) + (n2 * p2)) / (n1 + n2);
                     
                     //Samples not meeting the MAF cutoff are removed
-                    if(((n1 * p1) + (n2 * p2)) / (n1 + n2) >= maf){
+                    if(af >= maf && 1-af >= maf){
                         
                         //Calculates divergence with Weir & Cokerham's Fst
                         if(div == 1){
