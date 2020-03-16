@@ -29,7 +29,7 @@
 #include "pbscan.h"
 #define empty "EMPTY"
 #define merror "\nERROR: System out of memory\n"
-#define version "2019.01.22"
+#define version "2020.03.16"
 
 int main(int argc, char *argv[]){
     
@@ -1391,7 +1391,7 @@ Pbs_s **estimatePBS(Geno_s *sites, int poplist[], double **ms, int sims, int snp
         
         if(step > 1){
             
-            if(site_i+step-1 < snp_n){
+            if(site_i+step-1 > snp_n){
                 if(strcmp(sites[site_i+step-1].chromo, sites[site_i].chromo) != 0){
                     while(strcmp(sites[site_i-1].chromo, sites[site_i].chromo) == 0)
                         site_i++;
